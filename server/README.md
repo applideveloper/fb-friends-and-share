@@ -1,0 +1,12 @@
+1.) Replace the PICTURE_URL and OFFER_URL placeholders in index.html(client folder), with appropriate URLs according to you. 
+
+2.) The web app is meant to function on Localhost, and hence, URLs have been hardcoded.
+
+3.) In the server folder, in config/config_app.js, 
+var fb_app_details = {      
+    app_ID: 'Your_App_ID',                
+    app_Secret: 'Your_App_Secret',
+    yourCallbackURL: 'Your_Callback_URL'
+}
+
+Replace the three strings with appropriate values after creating your Facebook app, at www.developer.facebook.com

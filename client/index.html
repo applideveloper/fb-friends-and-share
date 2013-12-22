@@ -1,0 +1,35 @@
+<html ng-app='fb_friends_and_share'>
+<title>FB Friends and Share</title>
+<head>
+	<script src="angular.js"></script>
+	<script>
+		var fb_friends_and_share=angular.module('fb_friends_and_share',[]).config(['$httpProvider',function($httpProvider) {
+			$httpProvider.defaults.useXDomain=true;
+			delete $httpProvider.defaults.headers.common['X-Requested-With'];
+			$httpProvider.defaults.cache = true;
+		}]);
+
+		function SimpleController($scope, $http,$location){
+			$scope.call = function(){
+				$http.get('/api/v1/auth/facebook').success(function(data,status,headers,config){
+					console.log("Here is the data"); 
+					console.log(data);
+				});
+			}
+		}	
+	</script>
+	<link rel="stylesheet" href="./bootstrap.css"></link>
+</head>
+<body ng-controller="SimpleController">
+	<div class="container">		
+		<div class="hero-unit">
+		<div align = "center">	<h2>Login with Facebook</h2></div>
+		</div>
+
+		<div class="span12 pagination-centered">
+			<a href='http://localhost:3000/api/v1/auth/facebook'><img src='http://localhost:3000/images/fb_2.jpg'></a> 
+		</div>
+	</div>
+	  
+</body>
+</html>

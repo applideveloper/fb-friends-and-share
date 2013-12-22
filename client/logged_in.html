@@ -1,0 +1,108 @@
+<html ng-app="myApp">
+<title>Logged in to Facebook!</title>
+<head>
+	<script src="angular.js"></script>
+  <link rel="stylesheet" href="./bootstrap.css"></link>  
+<script>
+	angular.module("myApp",[])
+  .controller("fbCtrl",function($scope){
+  	$scope.offers = [{
+  		id:1,
+  		title: "Free pizza",
+  		offerText: " Get free pizza from 10 AM to 1 PM"
+  	},{
+  		id:2,
+  		title: "Discount on chicken",
+  		offerText: " 30 percent discount on all chicken items"
+  	},{
+  		id:3,
+  		title: "Discount on thai food",
+  		offerText: " Offer3 Text"
+  	},{
+  		id:4,
+  		title: "Happy hours",
+  		offerText: " Offer4 Text"
+  	}];
+
+  $scope.share = function(offer){
+    FB.ui(
+    {
+        method: 'feed',
+        name: offer.title,
+        link: 'OfferURL'+ offer.id,
+        picture: 'PictureURL'+offer.id+'.png',
+        caption: 'Random Offer',
+        description: offer.offerText,
+        message: 'Hey! Just saw this great offer!'
+    });
+
+  }
+
+  $scope.invite = function(){
+  	FB.ui({
+  method: 'send',
+  link: 'www.twyst.in',
+  message: 'Hey! You should try out this great app!'
+});
+  }
+
+  $scope.sendRequest = function() {
+ // First get the list of friends for this user with the Graph API
+ FB.api('/me/friends', function(response) {
+   var container = document.getElementById('mfs');
+   var mfsForm = document.createElement('form');
+   mfsForm.id = 'mfsForm';
+   if(response){
+   	console.log(response.data);
+   }   
+   $scope.friendsList = response.data;
+   });
+ }
+});
+</script>
+</head>
+	<body>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+        FB.init({appId: '250508195115155', status: true, cookie: true,
+        xfbml: true});
+    };
+    (function() {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol +
+        '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+  </script>
+
+    <div class="container">
+      <div class="hero-unit"><h2>Logged in to Facebook!</h2>     
+    </div>
+
+
+  <div ng-controller="fbCtrl">
+    <ul>
+
+    <div ng-repeat="offer in offers">
+      <div class="well">
+        <div>{{offer.title}}</div>
+        <div>{{offer.offerText}}</div>
+        <button class="btn btn-info" ng-click="share(offer)">Share</button>
+    </div>
+    </div>
+    <div class="row">
+      <div class="row">
+      <h2>Lets look at your friends!</h2>
+      <button class="btn btn-info btn-large" ng-click="sendRequest()">Click to see your friends list!</button>  
+      </div>
+      <div class="row">
+        <div ng-repeat="friend in friendsList">
+          <span class="span3 label label-info">{{friend.name}}</span>
+        </div>
+      </div>
+    </div>  	
+  </div>
+
+</body>
+</html>
